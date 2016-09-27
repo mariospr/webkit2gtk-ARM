@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
-    vb.memory = "8192"
+    vb.memory = "12228"
   end
 
   # Bootstraping the machine: Install packages and copy the CMake Toolchain file

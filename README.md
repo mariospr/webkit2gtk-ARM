@@ -9,6 +9,9 @@ Requirements
 This small project simply creates a VM with all the needed tools to cross-compile WebKit2GTK+
 for ARMv7, so it requires very few things, but still something is needed:
 
+* A host machine with lots of RAM (16GB recommended)
+  - Adjust Vagrantfile for the amount of memory you want to share (12GB by default)
+
 * Vagrant >= 1.8.5 (tested with 1.8.5 on Debian Testing and Fedora 24)
 
 * VirtualBox >=5.0 (tested with 5.0.16 on Debian Testing and 5.1.4 on Fedora 24)
