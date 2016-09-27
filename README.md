@@ -43,9 +43,9 @@ Instructions
 
 (4) You'll be inside the VM with access to your WebKit checkout under `/home/vagrant/WebKitARM` and to the CMake Toolchain file under `/home/vagrant/armv7l-toolchain.cmake`, assuming that you have adjusted the paths in step 2.
 
-(5) Create a BUILD directory in /home/vagrant:
+(5) Create a BUILD directory in `/home/vagrant/WebKitARM`:
 ```
-  $ mkdir BUILD && cd BUILD
+  $ mkdir WebKitARM/BUILD && cd WebKitARM/BUILD
 ```
 
 (6) Configure the build, passing any extra parameter you need. For instance:
@@ -71,3 +71,5 @@ Instructions
 ```
   $ make VERBOSE=1 -j12    # Or anything else, this is just what I use
 ```
+
+(8) Once you finish, you'll have the BUILD objects under `BUILD/`, inside the checkout directory (both inside and outside the VM).
