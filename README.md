@@ -8,9 +8,9 @@ Two methods:
 
 ## Using a chroot (debootstrap + schroot)
 
-This method is harder to setup than the one based on Vagrant and VMs, but build times are MUCH faster, so I'm describing it first.
+This method is harder to setup than the one based on VMs, but build times are MUCH faster, so I'm describing it first.
 
-As reference, I could cross compile WebKit2GTK+ 2.14.0 from scratch using a chroot in my desktop PC (12 Xeon cores at 3.54 GHz, 16GB DD4 RAM, fast SSD) in less than 1 hour, while the VM-based method in the same machine (sharing only 8 cores and 12GB of RAM, though) I could only build ~15% in about 2h. So yes, the chroot method seemed to be about 12x faster under those circumstances, which is why I'd recommend it instead of the easier method.
+As reference, I could cross compile WebKit2GTK+ 2.14.0 from scratch using a chroot in my desktop PC (12 Xeon cores at 3.54 GHz, 16GB DDR4 RAM, fast SSD) in less than 1 hour, while the VM-based method in the same machine (sharing only 8 cores and 12GB of RAM, though) I could only build ~15% in about 2h. So yes, the chroot method seems to be about 12x faster under those circumstances, which is why I'd recommend it instead of the easier method.
 
 ### Requirements
 
