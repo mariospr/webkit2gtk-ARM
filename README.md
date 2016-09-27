@@ -3,84 +3,14 @@
 Resources to allow cross compiling WebKit2GTK+ for ARM.
 
 Two methods:
-  * Using a Virtual Machine (using Vagrant)
-  * Using a local chroot (debootstrap + schroot)
-
-## Using a Virtual Machine (using Vagrant)
-
-The first method described simply creates a VM with all the needed tools to cross-compile WebKit2GTK+
-for ARMv7, so it requires very few things, but still something is needed:
-
-### Requirements
-
-* A host machine with lots of CPUs and RAM (16GB recommended)
-  - Adjust Vagrantfile for the amount of resources you want to share (8 cores and 12GB by default)
-
-* Vagrant >= 1.8.5 (tested with 1.8.5 on Debian Testing and Fedora 24)
-
-* VirtualBox >=5.0 (tested with 5.0.16 on Debian Testing and 5.1.4 on Fedora 24)
-
-* RootFS for the target device
-  - The RootFS needs to provide all the usual WebKit build dependencies
-  - You need to adjust the path in Vagrantfile and the CMake Toolchain file accordingly (e.g /schroot/eos-master-armhf)
-
-* Checkout of WebKit2GTK+ source code
-  - Will be mounted under /home/vagrant/WebKitARM inside the VM
-  - You need to adjust the path in Vagrantfile accordingly
-
-### Instructions
-
-(1) To re-create the development environment, start by cloning the git repository:
-```
-  $ git clone git@github.com:mariospr/webkit2gtk-ARM.git
-  $ cd webkit2gtk-ARM
-```
-
-(2) Now you edit `Vagrantfile` and provide the correct paths pointing to your WebKit checkout and the target RootFS
-
-(3) Finally you initialize, provision and run the virtual machine:
-```
-  $ vagrant up --provider=virtualbox  # Will take some time the first time
-  $ vagrant ssh                       # Logs in into the Virtual Machine
-```
-
-(4) You'll be inside the VM with access to your WebKit checkout under `/home/vagrant/WebKitARM` and to the CMake Toolchain file under `/home/vagrant/armv7l-toolchain.cmake`, assuming that you have adjusted the paths in step 2.
-
-(5) Create a BUILD directory in `/home/vagrant/WebKitARM`:
-```
-  $ mkdir WebKitARM/BUILD && cd WebKitARM/BUILD
-```
-
-(6) Configure the build, passing any extra parameter you need. For instance:
-```
-  $ cmake -DCMAKE_TOOLCHAIN_FILE=/home/vagrant/armv7l-toolchain.cmake \
-        -DPORT=GTK \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_SYSCONFDIR=/etc \
-        -DCMAKE_INSTALL_LOCALSTATEDIR=/var \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=lib/arm-linux-gnueabihf \
-        -DCMAKE_INSTALL_LIBEXECDIR=lib/arm-linux-gnueabihf \
-        -DCMAKE_VERBOSE_MAKEFILE=ON \
-        -DENABLE_PLUGIN_PROCESS_GTK2=OFF \
-        -DENABLE_GEOLOCATION=OFF \
-        -DENABLE_GLES2=ON \
-        -DUSE_LD_GOLD=OFF \
-        -DUSE_GSTREAMER_GL=ON \
-        /home/vagrant/WebKitARM
-```
-
-(7) Build the thing:
-```
-  $ make VERBOSE=1 -j12    # Or anything else, this is just what I use
-```
-
-(8) Once you finish, you'll have the BUILD objects under `BUILD/`, inside the checkout directory (both inside and outside the VM).
-
+  * Using a local chroot (debootstrap + schroot): harder to setup, faster builds
+  * Using a Virtual Machine (using Vagrant): easier to setup, way slower builds
 
 ## Using a chroot (debootstrap + schroot)
 
-Having a VM that can be created and provisioned automatically via a Vagrant script is nice and works as a method to cross-compile WebKit, but using virtualization can result in a too slow process sometimes. If that's an issue for you can skip using Vagrant and symply use a chroot instead of the VM.
+This method is harder to setup than the one based on Vagrant and VMs, but build times are MUCH faster, so I'm describing it first.
+
+As reference, I could cross compile WebKit2GTK+ 2.14.0 from scratch using a chroot in my desktop PC (12 Xeon cores at 3.54 GHz, 16GB DD4 RAM, fast SSD) in less than 1 hour, while the VM-based method in the same machine (sharing only 8 cores and 12GB of RAM, though) I could only build ~15% in about 2h. So yes, the chroot method seemed to be about 12x faster under those circumstances, which is why I'd recommend it instead of the easier method.
 
 ### Requirements
 
@@ -159,3 +89,74 @@ setup.fstab=default/wily-amd64.fstab
 ```
   $ make VERBOSE=1 -j12    # Or anything else, this is just what I use
 ```
+
+## Using a Virtual Machine (using Vagrant)
+
+The first method described simply creates a VM with all the needed tools to cross-compile WebKit2GTK+
+for ARMv7, so it requires very few things, but still something is needed:
+
+### Requirements
+
+* A host machine with lots of CPUs and RAM (16GB recommended)
+  - Adjust Vagrantfile for the amount of resources you want to share (8 cores and 12GB by default)
+
+* Vagrant >= 1.8.5 (tested with 1.8.5 on Debian Testing and Fedora 24)
+
+* VirtualBox >=5.0 (tested with 5.0.16 on Debian Testing and 5.1.4 on Fedora 24)
+
+* RootFS for the target device
+  - The RootFS needs to provide all the usual WebKit build dependencies
+  - You need to adjust the path in Vagrantfile and the CMake Toolchain file accordingly (e.g /schroot/eos-master-armhf)
+
+* Checkout of WebKit2GTK+ source code
+  - Will be mounted under /home/vagrant/WebKitARM inside the VM
+  - You need to adjust the path in Vagrantfile accordingly
+
+### Instructions
+
+(1) To re-create the development environment, start by cloning the git repository:
+```
+  $ git clone git@github.com:mariospr/webkit2gtk-ARM.git
+  $ cd webkit2gtk-ARM
+```
+
+(2) Now you edit `Vagrantfile` and provide the correct paths pointing to your WebKit checkout and the target RootFS
+
+(3) Finally you initialize, provision and run the virtual machine:
+```
+  $ vagrant up --provider=virtualbox  # Will take some time the first time
+  $ vagrant ssh                       # Logs in into the Virtual Machine
+```
+
+(4) You'll be inside the VM with access to your WebKit checkout under `/home/vagrant/WebKitARM` and to the CMake Toolchain file under `/home/vagrant/armv7l-toolchain.cmake`, assuming that you have adjusted the paths in step 2.
+
+(5) Create a BUILD directory in `/home/vagrant/WebKitARM`:
+```
+  $ mkdir WebKitARM/BUILD && cd WebKitARM/BUILD
+```
+
+(6) Configure the build, passing any extra parameter you need. For instance:
+```
+  $ cmake -DCMAKE_TOOLCHAIN_FILE=/home/vagrant/armv7l-toolchain.cmake \
+        -DPORT=GTK \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+        -DCMAKE_INSTALL_LOCALSTATEDIR=/var \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DCMAKE_INSTALL_LIBDIR=lib/arm-linux-gnueabihf \
+        -DCMAKE_INSTALL_LIBEXECDIR=lib/arm-linux-gnueabihf \
+        -DCMAKE_VERBOSE_MAKEFILE=ON \
+        -DENABLE_PLUGIN_PROCESS_GTK2=OFF \
+        -DENABLE_GEOLOCATION=OFF \
+        -DENABLE_GLES2=ON \
+        -DUSE_LD_GOLD=OFF \
+        -DUSE_GSTREAMER_GL=ON \
+        /home/vagrant/WebKitARM
+```
+
+(7) Build the thing:
+```
+  $ make VERBOSE=1 -j12    # Or anything else, this is just what I use
+```
+
+(8) Once you finish, you'll have the BUILD objects under `BUILD/`, inside the checkout directory (both inside and outside the VM).
