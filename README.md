@@ -47,7 +47,7 @@ Instructions
 
 (6) Configure the build, passing any extra parameter you need. For instance:
 ```
-  $ cmake -DCMAKE_TOOLCHAIN_FILE=$(pwd)/../armv7l-toolchain.cmake \
+  $ cmake -DCMAKE_TOOLCHAIN_FILE=/home/vagrant/armv7l-toolchain.cmake \
         -DPORT=GTK \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_SYSCONFDIR=/etc \
@@ -61,7 +61,7 @@ Instructions
         -DENABLE_GLES2=ON \
         -DUSE_LD_GOLD=OFF \
         -DUSE_GSTREAMER_GL=ON \
-        ..
+        /home/vagrant/WebKitARM
 ```
 
 (7) Build the thing:
