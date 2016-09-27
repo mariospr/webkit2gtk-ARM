@@ -1,7 +1,7 @@
-WebKit2GTK+ cross-compilation environment for ARMv7
-===================================================
+WebKit2GTK+ cross-compilation environment for ARM
+=================================================
 
-Resources to allow cross compiling WebKit2GTK+ for ARMv7.
+Resources to allow cross compiling WebKit2GTK+ for ARM.
 
 Requirements
 ============
