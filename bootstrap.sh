@@ -8,16 +8,22 @@
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
-# Build dependencies:
+# General build dependencies:
 apt-get install -y --assume-yes \
-        gawk \
+        bison \
         cmake \
         debhelper \
-        gperf \
-        bison \
         flex \
+        gawk \
+        gcc-4.9-base \
+        gperf \
+        libasan1 \
+        libgcc-4.9-dev \
+        libstdc++-4.9-dev \
+        pkg-config \
         ruby
 
+# Cross compiler:
 apt-get install -y --assume-yes \
         cpp-4.9-arm-linux-gnueabihf \
         g++-4.9-arm-linux-gnueabihf \
