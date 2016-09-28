@@ -19,7 +19,7 @@
 #   3. Configure the build, passing any extra parameter you need:
 #        $ cmake -DCMAKE_TOOLCHAIN_FILE=$(pwd)/../armv7l-toolchain.cmake \
 #              -DPORT=GTK \
-#              -DCMAKE_BUILD_TYPE=Release \
+#              -DCMAKE_BUILD_TYPE=Debug \
 #              -DCMAKE_INSTALL_SYSCONFDIR=/etc \
 #              -DCMAKE_INSTALL_LOCALSTATEDIR=/var \
 #              -DCMAKE_INSTALL_PREFIX=/usr \
@@ -69,12 +69,19 @@ INCLUDE_DIRECTORIES(SYSTEM
 # CMake does not pick CPPFLAGS, so we add it manually into CFLAGS and CXXFLAGS
 # Note: I have no idea why the first include directory from the previous list
 # gets ignored when building some components, so I pass it here as well.
-SET(CPPFLAGS "-DG_DISABLE_CAST_CHECKS -DNDEBUG -g1 -O0")
+SET(CPPFLAGS "-DG_DISABLE_CAST_CHECKS -g1 -O0")
 SET(ENV{CFLAGS} "${CPPFLAGS} -fstack-protector-strong -Wall -Wformat -Werror=format-security -I${ROOTFS}/usr/include -isystem ${ROOTFS}/usr/include")
 SET(ENV{CXXFLAGS} "${CPPFLAGS} -fstack-protector-strong -Wall -Wformat -Werror=format-security -I${ROOTFS}/usr/include -isystem ${ROOTFS}/usr/include")
 
 # CMake does not pick LDFLAGS, so we add it manually too
 SET(ENV{LDFLAGS} "-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,--as-needed -Wl,-rpath-link,${ROOTFS}/lib/arm-linux-gnueabihf")
+
+# This setup is meant for development so make sure we build without optimizations
+# and with some debug symbols (-g2 is too much in our ARM platform).
+SET(CMAKE_C_FLAGS_RELEASE "-g1 -O0 -DNDEBUG" CACHE STRING "Flags used by the compiler during release builds." FORCE)
+SET(CMAKE_CXX_FLAGS_RELEASE "-g1 -O0  -DNDEBUG"  CACHE STRING "Flags used by the compiler during release builds." FORCE)
+SET(CMAKE_C_FLAGS_DEBUG "-g1 -O0" CACHE STRING "Flags used by the compiler during debug builds." FORCE)
+SET(CMAKE_CXX_FLAGS_DEBUG "-g1 -O0"  CACHE STRING "Flags used by the compiler during debug builds." FORCE)
 
 # Need to export this variables for pkg-config to pick them up, so that it
 # sets the right search path and prefixes the result paths with the rootfs.
