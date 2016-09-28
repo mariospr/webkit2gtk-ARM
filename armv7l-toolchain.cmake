@@ -19,7 +19,7 @@
 #   3. Configure the build, passing any extra parameter you need:
 #        $ cmake -DCMAKE_TOOLCHAIN_FILE=$(pwd)/../armv7l-toolchain.cmake \
 #              -DPORT=GTK \
-#              -DCMAKE_BUILD_TYPE=Debug \
+#              -DCMAKE_BUILD_TYPE=Release \
 #              -DCMAKE_INSTALL_SYSCONFDIR=/etc \
 #              -DCMAKE_INSTALL_LOCALSTATEDIR=/var \
 #              -DCMAKE_INSTALL_PREFIX=/usr \
