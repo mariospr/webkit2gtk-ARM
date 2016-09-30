@@ -59,7 +59,6 @@ setup.fstab=default/wily-amd64.fstab
         -DCMAKE_INSTALL_PREFIX=/usr \
         -DCMAKE_INSTALL_LIBDIR=lib/arm-linux-gnueabihf \
         -DCMAKE_INSTALL_LIBEXECDIR=lib/arm-linux-gnueabihf \
-        -DCMAKE_VERBOSE_MAKEFILE=ON \
         -DENABLE_PLUGIN_PROCESS_GTK2=OFF \
         -DENABLE_GEOLOCATION=OFF \
         -DENABLE_GLES2=ON \
