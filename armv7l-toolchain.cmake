@@ -68,7 +68,7 @@ INCLUDE_DIRECTORIES(SYSTEM
 # CMake does not pick CPPFLAGS, so we add it manually into CFLAGS and CXXFLAGS
 # Note: I have no idea why the first include directory from the previous list
 # gets ignored when building some components, so I pass it here as well.
-SET(CPPFLAGS "-DG_DISABLE_CAST_CHECKS -g1 -O0")
+SET(CPPFLAGS "-DG_DISABLE_CAST_CHECKS")
 SET(ENV{CFLAGS} "${CPPFLAGS} -fstack-protector-strong -Wall -Wformat -Werror=format-security -I${ROOTFS}/usr/include -isystem ${ROOTFS}/usr/include")
 SET(ENV{CXXFLAGS} "${CPPFLAGS} -fstack-protector-strong -Wall -Wformat -Werror=format-security -I${ROOTFS}/usr/include -isystem ${ROOTFS}/usr/include")
 
@@ -77,8 +77,8 @@ SET(ENV{LDFLAGS} "-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,--as-needed -Wl,-rpa
 
 # This setup is meant for development so make sure we build without optimizations
 # and with some debug symbols (-g2 is too much in our ARM platform).
-SET(CMAKE_C_FLAGS_RELEASE "-g1 -O0 -DNDEBUG" CACHE STRING "Flags used by the compiler during release builds." FORCE)
-SET(CMAKE_CXX_FLAGS_RELEASE "-g1 -O0  -DNDEBUG"  CACHE STRING "Flags used by the compiler during release builds." FORCE)
+SET(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG" CACHE STRING "Flags used by the compiler during release builds." FORCE)
+SET(CMAKE_CXX_FLAGS_RELEASE "-O2  -DNDEBUG"  CACHE STRING "Flags used by the compiler during release builds." FORCE)
 SET(CMAKE_C_FLAGS_DEBUG "-g1 -O0" CACHE STRING "Flags used by the compiler during debug builds." FORCE)
 SET(CMAKE_CXX_FLAGS_DEBUG "-g1 -O0"  CACHE STRING "Flags used by the compiler during debug builds." FORCE)
 
