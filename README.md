@@ -4,18 +4,16 @@ Resources to allow cross compiling WebKit2GTK+ for ARM.
 
 ## Requirements
 
-To do that, you have a different set of requirements:
-
 * A host machine with lots of CPUs and RAM (16GB recommended)
 * RootFS for the target device
   - You need to adjust the path in Vagrantfile and the CMake Toolchain file accordingly (e.g /schroot/eos-master-armhf)
 * Packages to create and use the chroot: debootstrap, chroot and schroot
-  - Debian/Ubuntu: sudo apt-get install debootstrap chroot schroot
-  - Fedora: sudo dnf install debootstrap chroot schroot
+  - Debian/Ubuntu: `sudo apt-get install debootstrap chroot schroot`
+  - Fedora: `sudo dnf install debootstrap chroot schroot`
 
 ## Instructions
 
-(1) Now you have the requirements installed you can create the chroot:
+(1) First of all, create the chroot:
 ```
 $ sudo /usr/sbin/debootstrap \
     --arch amd64 \
@@ -48,7 +46,7 @@ setup.fstab=default/wily-amd64.fstab
   $ schroot -c wily-amd64
 ```
 
-(5) Finally, from inside the chroot, you can **run the `bootstrap.sh` script** provided with this repository to provision it with the tools you need to build Webkit, and then **copy the `armv7l-toolchain.cmake` file to some local path, and you're good to go.
+(5) Finally, from inside the chroot, you can **run the `bootstrap.sh` script** provided with this repository to provision it with the tools you need to build Webkit, and then **copy the `armv7l-toolchain.cmake` file to some local path**, and you're good to go.
 
 (6) To build WebKit now, you follow similar last steps to the ones for the case using Vagrant:
 
@@ -80,3 +78,4 @@ setup.fstab=default/wily-amd64.fstab
   $ make VERBOSE=1 -j12    # Or anything else, this is just what I use
 ```
 
+That's all. Now you should be able to copy the relevant files over to the target machine and use your cross-compiled WebKit build
