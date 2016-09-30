@@ -1,9 +1,6 @@
 #!/bin/bash -e
 #
-# Vagrant provisioning script for cross compiling WebKit2GTK+
-
-# System packages
-# ---------------
+# To be executed inside the chroot, to provision the environment
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
