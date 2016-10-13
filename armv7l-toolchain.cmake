@@ -1,12 +1,12 @@
 # CMake Toolchain file to cross compile WebKit2GTK+ for ARM (tested with 2.14.0)
 #
 # Environment:
-#   * Ubuntu Wily chroot (amd64)
+#   * Ubuntu Xenial chroot (amd64)
 #   * Root FS for the target device (e.g. /schroot/eos-master-armhf)
 #   * Usual WebKit build deps installed in the Root FS
-#   * Build dependencies in the host (wily chroot):
+#   * Build dependencies in the host (xenial chroot):
 #     gawk cmake debhelper gperf bison flex ruby
-#   * Cross compiler packages in the host (wily chroot):
+#   * Cross compiler packages in the host (xenial chroot):
 #       cpp-4.9-arm-linux-gnueabihf g++-4.9-arm-linux-gnueabihf \
 #       gcc-4.9-arm-linux-gnueabihf gcc-4.9-arm-linux-gnueabihf-base \
 #       libasan1-armhf-cross libgcc-4.9-dev-armhf-cross \

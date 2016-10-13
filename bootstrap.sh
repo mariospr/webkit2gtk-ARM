@@ -5,6 +5,11 @@
 export DEBIAN_FRONTEND=noninteractive
 apt-get update
 
+# Ubuntu Xenial does not get the _apt user installed when creating
+# a chroot via debootstrap, so create it now to prevent failures.
+adduser --force-badname --system --home /nonexistent  \
+        --no-create-home --quiet _apt || true
+
 # General build dependencies:
 apt-get install -y --assume-yes \
         bison \

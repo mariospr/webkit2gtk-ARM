@@ -18,23 +18,23 @@ Resources to allow cross compiling WebKit2GTK+ for ARM.
 $ sudo /usr/sbin/debootstrap \
     --arch amd64 \
     --components=main,universe \
-    wily /path/to/chroot http://uk.archive.ubuntu.com/ubuntu
+    xenial /path/to/chroot http://uk.archive.ubuntu.com/ubuntu
 ```
 
-(2) Create a configuration file for schroot, for instance under `/etc/schroot/chroot.d/wily-amd64`, with the following contents (replacing `<username>` and `<group>`):
+(2) Create a configuration file for schroot, for instance under `/etc/schroot/chroot.d/xenial-amd64`, with the following contents (replacing `<username>` and `<group>`):
 ```
-[wily-amd64]
-description=Ubuntu 64-bit chroot based on Wily
+[xenial-amd64]
+description=Ubuntu 64-bit chroot based on Xenial
 type=directory
 directory=/path/to/chroot
 users=<username>
 groups=<group>
 root-users=<username>
 setup.copyfiles=default/copyfiles
-setup.fstab=default/wily-amd64.fstab
+setup.fstab=default/xenial-amd64.fstab
 ```
 
-(3) Now you need to create that file under `/etc/schroot/default` so that you can tell schroot to bind mount the path to the RootFS when entering the chroot. To do that, create a copy of `/etc/schroot/default/fstab` (`sudo cp /etc/schroot/default/fstab/wily-amd64.fstab`) and then add this line to its contents:
+(3) Now you need to create that file under `/etc/schroot/default` so that you can tell schroot to bind mount the path to the RootFS when entering the chroot. To do that, create a copy of `/etc/schroot/default/fstab` (`sudo cp /etc/schroot/default/fstab/xenial-amd64.fstab`) and then add this line to its contents:
 ```
 # To crosscompile WebKitGTK
 /schroot/eos-master-armhf  /schroot/eos-master-armhf        none    rw,bind         0       0
@@ -43,15 +43,15 @@ setup.fstab=default/wily-amd64.fstab
 
 (4) You should be able to **enter the chroot** with your regular user session:
 ```
-  $ schroot -c wily-amd64
+  $ schroot -c xenial-amd64
 ```
 
-(5) Finally, from inside the chroot, you can **run the `bootstrap.sh` script** provided with this repository to provision it with the tools you need to build Webkit, and then **copy the `armv7l-toolchain.cmake` file to some local path**, and you're good to go.
+(5) Finally, from inside the chroot, you can **run the `bootstrap.sh` script as the root user** (or using sudo) provided with this repository to provision it with the tools you need to build Webkit, and then **copy the `armv7l-toolchain.cmake` file to some local path**, and you're good to go.
 
 (6) Now create a BUILD directory in `/path/to/your/WebKit` and configure the build (you might want to pass extra/different parameters, though) from inside the chroot:
 ```
   $ mkdir /path/to/your/WebKit/BUILD && cd /path/to/your/WebKit/BUILD
-  $ cmake -DCMAKE_TOOLCHAIN_FILE=/path/to/armv7l-toolchain.cmake \
+  $ cmake -DCMAKE_TOOLCHAIN_FILE=/home/mario/work/webkit2gtk-ARM/armv7l-toolchain.cmake \
         -DPORT=GTK \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_SYSCONFDIR=/etc \
