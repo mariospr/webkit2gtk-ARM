@@ -63,7 +63,6 @@ setup.fstab=default/xenial-amd64.fstab
         -DENABLE_GEOLOCATION=OFF \
         -DENABLE_GLES2=ON \
         -DUSE_LD_GOLD=OFF \
-        -DUSE_GSTREAMER_GL=ON \
         /path/to/your/WebKit
 ```
 

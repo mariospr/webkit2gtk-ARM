@@ -29,7 +29,6 @@
 #              -DENABLE_GEOLOCATION=OFF \
 #              -DENABLE_GLES2=ON \
 #              -DUSE_LD_GOLD=OFF \
-#              -DUSE_GSTREAMER_GL=ON \
 #              ..
 #   4. Build the thing:
 #        $ make VERBOSE=1 -j12    # Or anything else, this is just what I use
